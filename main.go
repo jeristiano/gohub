@@ -1,8 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"gohub/bootstrap"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,8 +12,8 @@ func main() {
 
 	// new 一个 Gin Engine 实例
 	r := gin.New()
-	// 注册中间件
-	r.Use(gin.Logger(), gin.Recovery())
+
+	bootstrap.SetupRoute(r)
 
 	r.GET("/", func(c *gin.Context) {
 
@@ -20,22 +21,10 @@ func main() {
 			"HELLO": "WORLD",
 		})
 	})
-	r.NoRoute(func(c *gin.Context) {
-		// 获取标头信息的 Accept 信息
-		acceptString := c.Request.Header.Get("Accept")
-
-		if strings.Contains(acceptString, "text/html") {
-			// 如果是 HTML 的话
-			c.String(http.StatusNotFound, "页面返回 404")
-
-		} else {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error_code":    404,
-				"error_message": "路由未定义，请确认 url 和请求方法是否正确。",
-			})
-		}
-	})
 
 	// 运行服务
-	r.Run(":3000")
+	err := r.Run(":3000")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 }
