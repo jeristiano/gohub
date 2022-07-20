@@ -29,6 +29,7 @@ func Logger() gin.HandlerFunc {
 		// 获取 response 内容
 		w := &responseBodyWriter{body: &bytes.Buffer{}, ResponseWriter: c.Writer}
 		c.Writer = w
+
 		// 获取请求数据
 		var requestBody []byte
 		if c.Request.Body != nil {
@@ -40,9 +41,11 @@ func Logger() gin.HandlerFunc {
 
 		start := time.Now()
 		c.Next()
+
 		// 开始记录日志的逻辑
 		cost := time.Since(start)
 		responStatus := c.Writer.Status()
+
 		logFields := []zap.Field{
 			zap.Int("status", responStatus),
 			zap.String("request", c.Request.Method+" "+c.Request.URL.String()),
