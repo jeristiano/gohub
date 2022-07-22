@@ -6,11 +6,11 @@ import (
 	"gohub/app/models/user"
 	"gohub/pkg/config"
 	"gohub/pkg/database"
+	logger "gohub/pkg/logger"
 	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func SetupDB() {
