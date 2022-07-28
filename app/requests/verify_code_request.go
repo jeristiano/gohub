@@ -30,11 +30,11 @@ func VerifyCodeEmail(data interface{}, c *gin.Context) map[string][]string {
 			"email:Email 格式不正确，请提供有效的邮箱地址",
 		},
 		"captcha_id": []string{
-			"required:图片验证码的 ID 为必填",
+			"required:验证码的 ID 为必填",
 		},
 		"captcha_answer": []string{
-			"required:图片验证码答案必填",
-			"digits:图片验证码长度必须为 6 位的数字",
+			"required:验证码答案必填",
+			"digits:验证码长度必须为 6 位的数字",
 		},
 	}
 
