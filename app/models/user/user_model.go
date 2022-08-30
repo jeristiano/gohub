@@ -41,3 +41,9 @@ func GetByMulti(loginID string) (userModel User) {
 		First(&userModel)
 	return
 }
+
+//保存
+func (userModel *User) Save() (rowsAffected int64) {
+	result := database.DB.Save(&userModel)
+	return result.RowsAffected
+}
