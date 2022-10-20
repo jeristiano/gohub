@@ -2,6 +2,7 @@
 package migrate
 
 import (
+	"gohub/pkg/console"
 	"gohub/pkg/database"
 	"gohub/pkg/file"
 	"os"
@@ -51,10 +52,13 @@ func (migrator *Migrator) createMigrationsTable() {
 
 // Up 执行所有未迁移过的文件
 func (migrator *Migrator) Up() {
+
 	// 读取所有迁移文件，确保按照时间排序
 	migrateFiles := migrator.readAllMigrationFiles()
+
 	// 获取当前批次的值
 	batch := migrator.getBatch()
+
 	// 获取所有迁移数据
 	migrations := []Migration{}
 	migrator.DB.Find(&migrations)
@@ -118,6 +122,7 @@ func (migrator *Migrator) readAllMigrationFiles() []MigrationFile {
 	}
 
 	// 返回排序好的『MigrationFile』数组
+	return migrateFiles
 }
 
 // 执行迁移，执行迁移的 up 方法
