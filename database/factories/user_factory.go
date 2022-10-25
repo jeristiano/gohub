@@ -7,7 +7,7 @@ import (
 	"github.com/bxcodec/faker/v3"
 )
 
-func makeUsers(times int) []user.User {
+func MakeUsers(times int) []user.User {
 	var objs []user.User
 
 	faker.SetGenerateUniqueValues(true)
