@@ -68,6 +68,7 @@ func init() {
 	CmdMake.AddCommand(
 		CmdMakeCMD,
 		CmdMakeAPIController,
+		CmdMakeModel,
 		CmdMakeRequest,
 		CmdMakeMigration,
 		CmdMakeFactory,
