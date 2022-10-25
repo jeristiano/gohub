@@ -20,3 +20,9 @@ func Get(idstr string) (userModel User) {
 	database.DB.Model(User{}).Where("id", idstr).First(&userModel)
 	return
 }
+
+// All 获取所有用户数据
+func All() (users []User) {
+	database.DB.Find(&users)
+	return
+}
