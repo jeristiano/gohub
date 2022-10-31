@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"golanghub/routes"
+	"gohub/routes"
 
 	"github.com/gin-gonic/gin"
 )

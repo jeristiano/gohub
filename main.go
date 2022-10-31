@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"golanghub/bootstrap"
+	"gohub/bootstrap"
 
 	"github.com/gin-gonic/gin"
 )
