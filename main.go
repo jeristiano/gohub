@@ -1,36 +1,50 @@
 package main
 
-import "fmt"
+import (
+	"net/http"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	fmt.Println("hello world 您好世界 ")
 
-	for i := 0; i < 10; i++ {
-		fmt.Println(i)
-	}
-	foo := make(map[string]string)
-	foo["name"] = "长泽雅美"
-	foo["age"] = "34"
-	foo["nationality"] = "日本国"
-	foo["occupation"] = "演员"
+	// r := gin.Default()
+	// r.GET("/", func(ctx *gin.Context) {
+	// 	// 注册一个路由
+	// 	// 以 JSON 格式响应
+	// 	ctx.JSON(http.StatusOK, gin.H{"Hello": "World!"})
+	// })
 
-	foo1 := make(map[string]string)
-	foo1["name"] = "新垣结衣"
-	foo1["age"] = "34"
-	foo1["nationality"] = "日本国"
-	foo1["occupation"] = "演员"
+	// r.Run()
+	// new 一个 Gin Engine 实例
+	r := gin.New()
 
-	for k, v := range foo {
-		fmt.Println(k, v)
-	}
+	// 注册中间件
+	r.Use(gin.Logger(), gin.Recovery())
+	// 注册一个路由
+	r.GET("/", func(c *gin.Context) {
 
-	items := make([]map[string]string, 5)
+		// 以 JSON 格式响应
+		c.JSON(http.StatusOK, gin.H{
+			"Hello": "World!",
+		})
+	})
 
-	items = append(items, foo)
-	items = append(items, foo1)
+	r.NoRoute(func(c *gin.Context) {
+		// 获取标头信息的 Accept 信息
+		acceptString := c.Request.Header.Get("Accept")
+		if strings.Contains(acceptString, "text/html") {
+			c.String(http.StatusNotFound, "页面返回 404")
+		} else {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error_code":    404,
+				"error_message": "路由未定义，请确认 url 和请求方法是否正确。",
+			})
+		}
+	})
 
-	for key, value := range items {
-		fmt.Println(key, value)
-	}
+	// 运行服务，默认为 8080，我们指定端口为 8000
+	r.Run(":8000")
 
 }
