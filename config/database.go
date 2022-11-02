@@ -6,7 +6,7 @@ func init() {
 	config.Add("database", func() map[string]interface{} {
 		return map[string]interface{}{
 			// 默认数据库
-			"connections": config.Env("DB_CONNECTION", "mysql"),
+			"connection": config.Env("DB_CONNECTION", "mysql"),
 
 			"mysql": map[string]interface{}{
 
