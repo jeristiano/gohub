@@ -12,6 +12,7 @@ import (
 
 func init() {
 	// 加载 config 目录下的配置信息
+	fmt.Println("init")
 	btsConfig.Initialize()
 }
 func main() {
@@ -20,9 +21,12 @@ func main() {
 	flag.StringVar(&env, "env", "", "加载 .env 文件，如 --env=testing 加载的是 .env.testing 文件")
 	flag.Parse()
 	config.InitConfig(env)
-
+	fmt.Println("main.go")
 	// new 一个 Gin Engine 实例
 	router := gin.New()
+
+	// 初始化 DB
+	bootstrap.SetupDB()
 
 	bootstrap.SetupRoute(router)
 	// 运行服务
