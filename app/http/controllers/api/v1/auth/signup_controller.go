@@ -4,6 +4,7 @@ import (
 	"fmt"
 	v1 "gohub/app/http/controllers/api/v1"
 	"gohub/app/models/user"
+	"gohub/app/requests"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,11 +19,7 @@ type SignupController struct {
 
 func (sc *SignupController) IsPhoneExist(c *gin.Context) {
 
-	// 请求对象
-	type PhoneExistRequest struct {
-		Phone string `json:"phone"`
-	}
-	request := PhoneExistRequest{}
+	request := requests.SignupPhoneExistRequest{}
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		// 解析失败，返回 422 状态码和错误信息
@@ -34,7 +31,17 @@ func (sc *SignupController) IsPhoneExist(c *gin.Context) {
 		// 出错了，中断请求
 		return
 	}
-	//  检查数据库并返回响应
+
+	//验证参数
+	errs := requests.ValidateSignupPhoneExist(&request, c)
+	// errs 返回长度等于零即通过，大于 0 即有错误发生
+	if len(errs) > 0 {
+		// 解析失败，返回 422 状态码和错误信息
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
+			"error": errs,
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"exist": user.IsPhoneExist(request.Phone),
