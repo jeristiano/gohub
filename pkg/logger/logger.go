@@ -29,7 +29,12 @@ func InitLogger(filename string, maxSize, maxBackup, maxAge int, compress bool, 
 		fmt.Println("日志初始化错误，日志级别设置有误。请修改 config/log.go 文件中的 log.level 配置项")
 	}
 	core := zapcore.NewCore(getEncoder(), writeSyncer, logLevel)
-	zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zap.ErrorLevel))
+	// 初始化 Logger
+	Logger = zap.New(core,
+		zap.AddCaller(),                   // 调用文件和行号，内部使用 runtime.Caller
+		zap.AddCallerSkip(1),              // 封装了一层，调用文件去除一层(runtime.Caller(1))
+		zap.AddStacktrace(zap.ErrorLevel), // Error 时才会显示 stacktrace
+	)
 
 	// 将自定义的 logger 替换为全局的 logger
 	// zap.L().Fatal() 调用时，就会使用我们自定的 Logger
