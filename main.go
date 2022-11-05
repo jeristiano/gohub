@@ -32,6 +32,9 @@ func main() {
 	// 初始化 DB
 	bootstrap.SetupDB()
 
+	// 初始化 Redis
+	bootstrap.SetupRedis()
+
 	bootstrap.SetupRoute(router)
 	// 运行服务
 	err := router.Run(":3000")
