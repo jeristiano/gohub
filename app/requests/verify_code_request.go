@@ -1,6 +1,8 @@
 package requests
 
 import (
+	"gohub/pkg/captcha"
+
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
 )

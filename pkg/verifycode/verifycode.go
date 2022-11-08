@@ -3,6 +3,7 @@ package verifycode
 import (
 	"gohub/pkg/app"
 	"gohub/pkg/config"
+	"gohub/pkg/helpers"
 	"gohub/pkg/logger"
 	"gohub/pkg/redis"
 	"gohub/pkg/sms"
