@@ -1,6 +1,9 @@
 package sms
 
-import "sync"
+import (
+	"gohub/pkg/config"
+	"sync"
+)
 
 // Message 是短信的结构体
 type Message struct {
@@ -21,7 +24,7 @@ var once sync.Once
 // internalSMS 内部使用的 SMS 对象
 var internalSMS *SMS
 
-func NesSms() *SMS {
+func NewSMS() *SMS {
 	once.Do(func() {
 		internalSMS = &SMS{
 			Driver: &Aliyun{},
@@ -30,6 +33,6 @@ func NesSms() *SMS {
 	return internalSMS
 }
 
-func (sms *SMS) Send(phone string, message Message, config map[string]string) bool {
-	return sms.Driver.Send(phone, message, config)
+func (sms *SMS) Send(phone string, message Message) bool {
+	return sms.Driver.Send(phone, message, config.GetStringMapString("sms.aliyun"))
 }
